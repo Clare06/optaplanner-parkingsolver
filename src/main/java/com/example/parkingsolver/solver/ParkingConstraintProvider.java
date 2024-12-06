@@ -11,21 +11,30 @@ public class ParkingConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory factory) {
         return new Constraint[] {
-                vehicleSizeMismatch(factory),
+                vehicleOutOfPolygon(factory),
+                vehicleBlockingClearance(factory),
         };
     }
 
-    private Constraint vehicleSizeMismatch(ConstraintFactory factory) {
+    private Constraint vehicleOutOfPolygon(ConstraintFactory factory) {
         return factory.forEach(Vehicle.class)
                 .filter(vehicle -> vehicle.getParkingSlot() != null) // Ensure the vehicle has an assigned parking slot
                 .filter(vehicle ->
-                        vehicle.getWidth() > vehicle.getParkingSlot().getWidth() ||
-                                vehicle.getHeight() > vehicle.getParkingSlot().getHeight()
+                        vehicle.getParkingSlot().isInsidePolygon(vehicle)
                 )
                 .penalize(HardSoftScore.ONE_HARD)
-                .asConstraint("Don't assign a larger vehicle to a smaller slot");
+                .asConstraint("Don't assign vehicle outside slot");
     }
 
+    private Constraint vehicleBlockingClearance(ConstraintFactory factory) {
+        return factory.forEach(Vehicle.class)
+                .filter(vehicle -> vehicle.getParkingSlot() != null) // Ensure the vehicle has an assigned parking slot
+                .filter(vehicle ->
+                        vehicle.getParkingSlot().isClearanceBlocking(vehicle)
+                )
+                .penalize(HardSoftScore.ONE_HARD)
+                .asConstraint("Don't assign vehicle blocks clearance");
+    }
 
 
 
