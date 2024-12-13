@@ -10,6 +10,14 @@ public class VehicleDetail {
     private double clearanceHorizontal;
     private double clearanceVertical;
 
+    public VehicleDetail(VehicleType type, double width, double height, double clearanceHorizontal, double clearanceVertical) {
+        this.type = type;
+        this.width = width;
+        this.height = height;
+        this.clearanceHorizontal = clearanceHorizontal;
+        this.clearanceVertical = clearanceVertical;
+    }
+
     public VehicleDetail(VehicleType type) {
         this.type = type;
         switch (type) {
