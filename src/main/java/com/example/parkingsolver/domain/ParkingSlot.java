@@ -46,10 +46,10 @@ public class ParkingSlot {
 
         for (VerticeCoordinate point : vehiclePolygon) {
             if (!polygon.contains(point.getX(), point.getY())) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public Boolean isClearanceBlocking(Vehicle vehicle) {

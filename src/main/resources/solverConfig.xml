@@ -10,7 +10,7 @@
         <constraintProviderClass>com.example.parkingsolver.solver.ParkingConstraintProvider</constraintProviderClass>
     </scoreDirectorFactory>
     <termination>
-        <secondsSpentLimit>20</secondsSpentLimit>
+        <secondsSpentLimit>2</secondsSpentLimit>
     </termination>
 
 </solver>
